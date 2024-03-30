@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079671788623",
+    "project_id": "inynieria-oprogramowania",
+    "storage_bucket": "inynieria-oprogramowania.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079671788623:android:975c290f07908c9e85063a",
+        "android_client_info": {
+          "package_name": "com.example.softwareengineering"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAG3gWkfA-6R4JpZwTVqy5DavdDzVsPAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

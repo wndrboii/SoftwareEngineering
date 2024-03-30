@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SoftwareEngineering</string>
+    <string name="login">Log in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="click_to_login">Click to login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="logout">Log out</string>
+    <string-array name="menu_options">
+        <item>Strona główna</item>
+        <item>Składniki</item>
+    </string-array>
+</resources>
