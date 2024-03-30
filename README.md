@@ -45,4 +45,4 @@ Witaj w CookIt - twoim niezastąpionym towarzyszem do zarządzania posiłkami, �
 
 1. Jerzy Dobosz
 2. Mikołaj Grygiel
-3. Bohdan
+3. Bogdan
