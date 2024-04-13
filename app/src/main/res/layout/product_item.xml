@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@color/white10"
+    android:layout_marginTop="10dp">
+
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Product Name"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="20dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/kalorii_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0g"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/product_proteins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0g"
+        android:textSize="10sp"
+        android:layout_marginHorizontal="10dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/product_carbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0g"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/product_fats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0g"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="10dp"
+        android:layout_gravity="center"/>
+    <ImageView
+        android:id="@+id/edit_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_edit"
+        android:backgroundTint="@color/white"
+        />
+    <ImageView
+        android:id="@+id/remove_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_delete"
+        android:backgroundTint="@color/white"
+        />
+
+
+</LinearLayout>

@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity() {
             finish()
         })
 
+        categories.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,CategoriesActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         logout.setOnClickListener(View.OnClickListener{
             FirebaseAuth.getInstance().signOut()
             var intent : Intent = Intent(applicationContext,login::class.java)
