@@ -15,3 +15,10 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 }
+
+class ExampleUnitTest 2{
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(6, 3 + 3)///
+    }
+}
