@@ -62,6 +62,26 @@
             android:background="@drawable/gradient_categories"
             >
 
+            <ImageButton
+                android:id="@+id/posilki_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_posilki"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Posiłki"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
