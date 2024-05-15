@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/gradient_bottom_main_page">
+<ScrollView
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_bottom_main_page">
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginBottom="120dp"
+    android:layout_marginTop="50dp"
+    android:background="@drawable/rounded_background"
+    android:padding="15dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:alpha=".1"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="30dp"
-        />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="30dp"
+        android:layout_height="wrap_content"
         >
 
         <RelativeLayout
@@ -93,6 +92,27 @@
             android:background="@drawable/gradient_categories"
             >
 
+            <ImageButton
+                android:id="@+id/categoty_btn"
+                android:layout_width="68dp"
+                android:layout_height="85dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_sets"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Zestawy"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -103,6 +123,26 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/gradient_categories"
             >
+            <ImageButton
+                android:id="@+id/favourite_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_favourite"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Ulubione"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
@@ -114,6 +154,26 @@
             android:layout_alignParentLeft="true"
             android:background="@drawable/gradient_categories"
             >
+            <ImageButton
+                android:id="@+id/water_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_water"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Woda"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
@@ -125,92 +185,234 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/gradient_categories"
             >
+            <ImageButton
+                android:id="@+id/measurements_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_measurements"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Pomiary ciała"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="540dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/gradient_categories"
+            >
+            <ImageButton
+                android:id="@+id/dishcat_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/category"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Kategorie"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="540dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/gradient_categories"
+            >
+            <ImageButton
+                android:id="@+id/chart_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_chart"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Wykresy"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="710dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/gradient_categories"
+            >
+            <ImageButton
+                android:id="@+id/share_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_share"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Udostępnij"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="710dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/gradient_categories"
+            >
+            <ImageButton
+                android:id="@+id/tips_btn"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/ic_tips"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:text="Podpowiedzi"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:alpha=".7"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
+
+
     </RelativeLayout>
 
+</ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/menu_panel"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="50dp"
+
+<RelativeLayout
+    android:id="@+id/menu_panel"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="10dp"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <ImageButton
+        android:id="@+id/home_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="65dp"
+        android:layout_marginBottom="26dp"
+        android:background="@drawable/ic_home"
+        android:backgroundTint="@color/grey" />
 
-        <ImageButton
-            android:id="@+id/home_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="26dp"
-            android:background="@drawable/ic_home"
-            android:backgroundTint="@color/grey" />
+    <TextView
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginBottom="12dp"
+        android:text="Home"
+        android:textColor="@color/grey"
+        android:textSize="11sp" />
 
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:text="Home"
-            android:textColor="@color/grey"
-            android:textSize="11sp"
-            android:layout_marginHorizontal="80dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="12dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            />
+    <ImageButton
+        android:id="@+id/categories_btn"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="33dp"
+        android:background="@drawable/ic_menu"
+        android:backgroundTint="@color/white" />
 
-        <ImageButton
-            android:id="@+id/categories_btn"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_menu"
-            android:backgroundTint="@color/white" />
+    <TextView
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12dp"
+        android:text="Categories"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="11sp" />
 
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="12dp"
-            android:text="Categories"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textAlignment="center"/>
+    <ImageButton
+        android:id="@+id/logout_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="65dp"
+        android:layout_marginBottom="33dp"
+        android:background="@drawable/ic_logout"
+        android:backgroundTint="@color/grey" />
 
-        <ImageButton
-            android:id="@+id/logout_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_logout"
-            android:backgroundTint="@color/grey" />
-
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textColor="@color/grey"
-            android:textSize="11sp"
-            android:layout_marginRight="47dp"
-            android:textAlignment="center"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="12dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            />
-    </RelativeLayout>
-
+    <TextView
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="47dp"
+        android:layout_marginBottom="12dp"
+        android:text="Logout"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        android:textSize="11sp" />
 </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

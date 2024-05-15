@@ -31,7 +31,6 @@ class SkladnikiActivity : AppCompatActivity() {
 
         val addButton = findViewById<ImageButton>(R.id.submit_btn)
         addButton.setOnClickListener {
-
             nameOfProduct = findViewById<EditText>(R.id.name_edit_text)
             caloriesEditText = findViewById<EditText>(R.id.kalorii_edit_text)
             proteinsEditText = findViewById<EditText>(R.id.protein_edit_text)
@@ -39,40 +38,51 @@ class SkladnikiActivity : AppCompatActivity() {
             fatsEditText = findViewById<EditText>(R.id.tł_edit_text)
 
             val name = nameOfProduct.text.toString()
-            val calories = caloriesEditText.text.toString().toInt()
-            val proteins = proteinsEditText.text.toString().toInt()
-            val carbs = carbsEditText.text.toString().toInt()
-            val fats = fatsEditText.text.toString().toInt()
+            val calories = caloriesEditText.text.toString().toIntOrNull()
+            val proteins = proteinsEditText.text.toString().toIntOrNull()
+            val carbs = carbsEditText.text.toString().toIntOrNull()
+            val fats = fatsEditText.text.toString().toIntOrNull()
 
-            val database = Firebase.database.reference
-            val product = Skladnik(
-                id = database.child("products").push().key,
-                name = name,
-                calories = calories,
-                protein = proteins,
-                carbs = carbs,
-                fat = fats
-            )
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val currentUserId = currentUser?.uid
 
+            if (name.isNotEmpty() && calories != null && proteins != null && carbs != null && fats != null) {
+                val database = Firebase.database.reference
+                val product = Skladnik(
+                    id = database.child("products").push().key,
+                    name = name,
+                    calories = calories,
+                    protein = proteins,
+                    carbs = carbs,
+                    fat = fats,
+                    userId = currentUserId
+                )
 
-            if (product.id != null) {
-                database.child("products").child(product.id!!).setValue(product).addOnSuccessListener {
-                    Toast.makeText(this, "Nowy składnik dodany pomyślnie", Toast.LENGTH_SHORT).show()
-                    nameOfProduct.text.clear()
-                    caloriesEditText.text.clear()
-                    proteinsEditText.text.clear()
-                    carbsEditText.text.clear()
-                    fatsEditText.text.clear()
+                if (product.id != null) {
+                    database.child("products").child(product.id!!).setValue(product)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                this,
+                                "Nowy składnik dodany pomyślnie",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            nameOfProduct.text.clear()
+                            caloriesEditText.text.clear()
+                            proteinsEditText.text.clear()
+                            carbsEditText.text.clear()
+                            fatsEditText.text.clear()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                this,
+                                "Błąd podczas dodawania składnika: ${it.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                 }
-                    .addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            "Błąd podczas dodawania składnika: ${it.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            } else {
+                Toast.makeText(this, "Wszystkie pola muszą być wypełnione poprawnie", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         logout = findViewById(R.id.logout_button)

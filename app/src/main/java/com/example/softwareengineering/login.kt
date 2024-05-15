@@ -5,11 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -18,7 +14,7 @@ import com.google.firebase.ktx.Firebase
 class login : AppCompatActivity() {
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
-    private lateinit var buttonLogin: Button
+    private lateinit var buttonLogin: ImageButton
     private lateinit var auth: FirebaseAuth
     private lateinit var progressBar: ProgressBar
     private lateinit var textView: TextView

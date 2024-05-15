@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_green_main">
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="50dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80308878"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/dish_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:letterSpacing=".1"
+                android:paddingVertical="18sp"
+                android:text="Dish Name"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/dish_details"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:layout_constraintTop_toBottomOf="@+id/dish_name"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/dish_kcal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing=".1"
+                    android:text="kcal"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_weight="3"
+                    android:paddingLeft="10dp"/>
+                <TextView
+                    android:id="@+id/dish_proteins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing=".1"
+                    android:text="p"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/dish_carbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing=".1"
+                    android:text="c"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/dish_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing=".1"
+                    android:text="f"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/dish_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:background="@color/grey"
+                app:layout_constraintTop_toBottomOf="@+id/dish_details"/>
+
+            <TextView
+                android:id="@+id/list_of_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing=".1"
+                android:text="Lista składników:"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/dish_image"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/list_of_products"
+                android:layout_marginTop="10dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/comment_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Napisz komentarz"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                app:layout_constraintTop_toBottomOf="@+id/productRecyclerView"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/edittext"
+                android:hint="Moim zdaniem..."
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:paddingBottom="55dp"
+                android:textColorHint="#397C70"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/comment_textView"/>
+
+            <LinearLayout
+                android:id="@+id/average_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/name_edit_text"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Średnia:"
+                    android:src="@drawable/ic_star"
+                    android:textColor="@color/yellow"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
+
+                <TextView
+                    android:id="@+id/average_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/yellow"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="1dp"/>
+                <ImageView
+                    android:id="@+id/like_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
+                <ImageView
+                    android:id="@+id/clock_btn"
+                    android:layout_width="30dp"
+                    android:src="@drawable/ic_clock"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ratings_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/average_layout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wystaw ocenę"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    android:layout_weight="3"/>
+
+                <Spinner
+                    android:id="@+id/ratingSpinner"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/rating"
+                    android:entries="@array/ratings"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/submit_btn"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Dodać"
+                android:src="@drawable/ic_submit"
+                android:background="@drawable/rounded_background_submit"
+                app:layout_constraintTop_toBottomOf="@id/ratings_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"
+                />
+
+            <TextView
+                android:id="@+id/comments_list_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Komentarze"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:layout_weight="3"
+                app:layout_constraintTop_toBottomOf="@id/submit_btn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comments_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/comments_list_text_view"
+                android:layout_marginTop="20dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/goback_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/ic_goback"
+        android:background="#00ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

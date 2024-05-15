@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.R
@@ -42,6 +43,7 @@ class SkladnikiToChooseAdapter(
         private val carbsTextView: TextView = itemView.findViewById(R.id.product_carbs)
         private val fatsTextView: TextView = itemView.findViewById(R.id.product_fats)
         private val checkBox: CheckBox = itemView.findViewById(R.id.ingredientCheckBox)
+        private val amountNumber: NumberPicker = itemView.findViewById(R.id.numberPicker)
 
         fun bind(product: Skladnik) {
             nameTextView.text = product.name
@@ -49,7 +51,8 @@ class SkladnikiToChooseAdapter(
             proteinsTextView.text = product.protein.toString()
             carbsTextView.text = product.carbs.toString()
             fatsTextView.text = product.fat.toString()
-
+            amountNumber.minValue = 0
+            amountNumber.maxValue = 200
             checkBox.isChecked = product.checked
 
             checkBox.setOnCheckedChangeListener { _, isChecked ->

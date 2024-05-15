@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
 
@@ -149,7 +150,16 @@
         android:layout_marginBottom="170dp"
         android:elevation="20dp"
         android:alpha=".95">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:layout_marginTop="90dp"
+            android:padding="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
 </RelativeLayout>
+

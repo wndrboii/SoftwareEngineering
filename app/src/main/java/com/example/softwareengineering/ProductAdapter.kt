@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.R
 import com.example.softwareengineering.model.Skladnik
+import com.google.firebase.auth.FirebaseAuth
 
 class ProductAdapter(
     private var productList: MutableList<Skladnik>,
@@ -39,6 +40,20 @@ class ProductAdapter(
         holder.carbsTextView.text = currentItem.carbs.toString()
         holder.fatsTextView.text = currentItem.fat.toString()
 
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUserId = currentUser?.uid
+
+        if (currentUserId == currentItem.userId) {
+            holder.deleteButton.visibility = View.VISIBLE
+            holder.deleteButton.isEnabled = true
+            holder.editButton.visibility = View.VISIBLE
+            holder.editButton.isEnabled = true
+        } else {
+            holder.deleteButton.visibility = View.INVISIBLE
+            holder.deleteButton.isEnabled = false
+            holder.editButton.visibility = View.INVISIBLE
+            holder.editButton.isEnabled = false
+        }
     }
 
     override fun getItemCount() = productList.size
@@ -56,7 +71,7 @@ class ProductAdapter(
         val carbsTextView: TextView = itemView.findViewById(R.id.product_carbs)
         val fatsTextView: TextView = itemView.findViewById(R.id.product_fats)
         val deleteButton: AppCompatImageView = itemView.findViewById(R.id.remove_btn)
-        val editBotton: AppCompatImageView = itemView.findViewById(R.id.edit_btn)
+        val editButton: AppCompatImageView = itemView.findViewById(R.id.edit_btn)
 
         init {
             deleteButton.setOnClickListener {
@@ -65,7 +80,7 @@ class ProductAdapter(
                     listener.onDeleteClick(position)
                 }
             }
-            editBotton.setOnClickListener {
+            editButton.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onEditClick(position)

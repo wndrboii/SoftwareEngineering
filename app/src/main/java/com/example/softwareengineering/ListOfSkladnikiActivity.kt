@@ -5,8 +5,11 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +24,7 @@ class ListOfSkladnikiActivity : AppCompatActivity(), ProductAdapter.ProductAdapt
     private lateinit var categories: ImageButton
     private lateinit var goback: ImageButton
     private lateinit var remove: ImageButton
+    private lateinit var searchEditText: EditText
     private lateinit var productAdapter: ProductAdapter
     private lateinit var productList: MutableList<Skladnik>
     private lateinit var productRecyclerView: RecyclerView
@@ -32,6 +36,7 @@ class ListOfSkladnikiActivity : AppCompatActivity(), ProductAdapter.ProductAdapt
         setContentView(R.layout.activity_list_of_skladniki)
 
         productRecyclerView = findViewById(R.id.productRecyclerView)
+        searchEditText = findViewById(R.id.search)
         productAdapter = ProductAdapter(mutableListOf(), this)
         productRecyclerView.adapter = productAdapter
 
@@ -57,7 +62,18 @@ class ListOfSkladnikiActivity : AppCompatActivity(), ProductAdapter.ProductAdapt
             override fun onCancelled(error: DatabaseError) {
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
+        })
 
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchTerm = s.toString().lowercase()
+                val filteredList = productList.filter { it.name.lowercase().contains(searchTerm) }
+                productAdapter.updateData(filteredList as MutableList<Skladnik>)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         logout = findViewById(R.id.logout_button)

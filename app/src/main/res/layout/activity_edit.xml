@@ -157,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Spójrzeć na listę składników"
+        android:text="Spojrzeć na listę składników"
         android:textSize="14dp"
         android:textColor="@color/grey"
         android:textAlignment="center"

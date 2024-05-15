@@ -1,8 +1,10 @@
 package com.example.softwareengineering.model
 
-import com.example.softwareengineering.model.Skladnik
-
 data class ProductCategory(
+    val id: String? = "",
     val name: String,
-    val products: MutableList<Skladnik>
-)
+    val dishes: MutableList<String?>,
+    val userId: String? = ""
+){
+    constructor() : this("", "", mutableListOf<String?>(), "")
+}
