@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -20,107 +20,61 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
-        <activity
-            android:name=".SetDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DishCatDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DishCatAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".CreateTipActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditTipActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TipsAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".MeasurementAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".EditMeasurementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FavouriteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DishCatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TipsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ListOfMeasurementsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MeasurementsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CategoryAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".ListOfCategoriesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CategoryEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PosilkiToChooseAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".DishCategories"
-            android:exported="false" />
-        <activity
-            android:name=".Water"
-            android:exported="false" />
-        <activity
-            android:name=".DishDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditDishActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ListOfPosilkiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PosilkiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ListOfSkladnikiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SkladnikiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CategoriesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".register"
+
+        <!-- Activities with correct exported attribute -->
+        <activity android:name=".DailyAdapter" android:exported="false"/>
+        <activity android:name=".ProfileActivity" android:exported="false"/>
+        <activity android:name=".CreateCategoryActivity" android:exported="false"/>
+        <activity android:name=".SetDetailActivity" android:exported="false"/>
+        <activity android:name=".DishCatDetailsActivity" android:exported="false"/>
+        <activity android:name=".DishCatAdapter" android:exported="false"/>
+        <activity android:name=".CreateTipActivity" android:exported="false"/>
+        <activity android:name=".EditTipActivity" android:exported="false"/>
+        <activity android:name=".TipsAdapter" android:exported="false"/>
+        <activity android:name=".MeasurementAdapter" android:exported="false"/>
+        <activity android:name=".EditMeasurementActivity" android:exported="false"/>
+        <activity android:name=".FavouriteActivity" android:exported="false"/>
+        <activity android:name=".DishCatActivity" android:exported="false"/>
+        <activity android:name=".TipsActivity" android:exported="false"/>
+        <activity android:name=".DaylistActivity" android:exported="false"/>
+        <activity android:name=".ListOfMeasurementsActivity" android:exported="false"/>
+        <activity android:name=".MeasurementsActivity" android:exported="false"/>
+        <activity android:name=".CategoryAdapter" android:exported="false"/>
+        <activity android:name=".ListOfCategoriesActivity" android:exported="false"/>
+        <activity android:name=".CategoryEditActivity" android:exported="false"/>
+        <activity android:name=".PosilkiToChooseAdapter" android:exported="false"/>
+        <activity android:name=".DishCategories" android:exported="false"/>
+        <activity android:name=".Water" android:exported="false"/>
+        <activity android:name=".DishDetailActivity" android:exported="false"/>
+        <activity android:name=".EditDishActivity" android:exported="false"/>
+        <activity android:name=".ListOfPosilkiActivity" android:exported="false"/>
+        <activity android:name=".PosilkiActivity" android:exported="false"/>
+        <activity android:name=".EditActivity" android:exported="false"/>
+        <activity android:name=".ListOfSkladnikiActivity" android:exported="false"/>
+        <activity android:name=".SkladnikiActivity" android:exported="false"/>
+        <activity android:name=".CategoriesActivity" android:exported="false"/>
+
+        <!-- Register activity -->
+        <activity android:name=".register"
             android:exported="false"
-            android:theme="@style/Theme.Material3.Light.NoActionBar" />
-        <activity
-            android:name=".login"
+            android:theme="@style/Theme.Material3.Light.NoActionBar"/>
+
+        <!-- Login activity with intent-filter -->
+        <activity android:name=".login"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+
+        <!-- Main activity -->
+        <activity android:name=".MainActivity"
+            android:exported="true"/>
     </application>
 
+    <!-- Declare optional camera feature -->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
 </manifest>
