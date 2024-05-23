@@ -1,162 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_bottom_main_page">
+    android:background="@drawable/gradient_green_main">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="200dp"
-        android:background="@drawable/rounded_background">
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_panel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="Wyszukiwarka"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="13dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_height="60dp"
+            android:background="#1e5948"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/search"
+            <ImageButton
+                android:id="@+id/goback_btn"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_arrow_left"
+                android:layout_margin="19dp"
+                android:background="@color/transparent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/search_tint"
+                android:inputType="text"
+                android:textColorHint="@color/greyLighter"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:maxLength="30"
+                android:background="@color/transparent"
+                app:layout_constraintLeft_toLeftOf="@+id/goback_btn"
+                android:layout_marginHorizontal="60dp"
+                />
+
+            <ImageButton
+                android:id="@+id/vertical_menu"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_margin="19dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_menu_vertical"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/products_labels"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="35dp"
-            android:background="@color/dark2"
-            android:textAlignment="center"
-            android:hint="Wpisz nazwę składnika"
-            android:inputType="text"
-            android:paddingLeft="15dp"
-            android:textColorHint="@color/grey"
-            android:textSize="12dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="30dp"
-            android:text="Nazwa składnika"
-            android:layout_marginTop="85dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:textColor="@color/white"
-            android:layout_marginRight="30dp"
-            android:text="kal / b / w / t"
-            android:layout_marginTop="85dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_height="50dp"
+            android:background="#327D68"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/search_panel">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/greyLighter"
+                android:layout_marginStart="30dp"
+                android:text="@string/product_name_title"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/greyLighter"
+                android:layout_marginEnd="30dp"
+                android:textStyle="bold"
+                android:text="@string/macros_abbr"
+                android:layout_alignParentEnd="true"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="330dp"
-            android:layout_marginTop="90dp"
+            android:layout_height="480dp"
+            android:layout_marginTop="10dp"
             android:padding="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/products_labels">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-
-    </RelativeLayout>
-
-    <ImageButton
-        android:id="@+id/goback_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="175dp"
-        android:layout_marginLeft="17dp"
-        android:src="@drawable/ic_goback"
-        android:background="#00ffffff"/>
-
-    <RelativeLayout
-        android:id="@+id/menu_panel"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp">
-
-        <ImageButton
-            android:id="@+id/home_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/menu_panel"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="26dp"
-            android:background="@drawable/ic_home"
-            android:backgroundTint="@color/grey" />
+            android:background="@drawable/menu_background"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="80dp"
-            android:layout_marginBottom="12dp"
-            android:text="Home"
-            android:textColor="@color/grey"
-            android:textSize="11sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/categories_wrapper">
 
-        <ImageButton
-            android:id="@+id/categories_btn"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_menu"
-            android:backgroundTint="@color/white" />
+                <ImageButton
+                    android:id="@+id/home_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="12dp"
-            android:text="Categories"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_menu_title"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:paddingVertical="1dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
-        <ImageButton
-            android:id="@+id/logout_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_logout"
-            android:backgroundTint="@color/grey" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="47dp"
-            android:layout_marginBottom="12dp"
-            android:text="Logout"
-            android:textAlignment="center"
-            android:textColor="@color/grey"
-            android:textSize="11sp" />
-    </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/categories_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/home_wrapper"
+                app:layout_constraintRight_toLeftOf="@id/profile_wrapper">
 
-</RelativeLayout>
+                <ImageButton
+                    android:id="@+id/categories_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_categories"
+                    app:layout_constraintBottom_toTopOf="@id/categories_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/categories_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/categories_menu_title"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:paddingVertical="1dp"
+                    android:paddingHorizontal="7dp"
+                    android:background="@drawable/menu_active_element_background"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/categories_btn"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/categories_wrapper"
+                app:layout_constraintRight_toLeftOf="@id/logout_wrapper">
+
+                <ImageButton
+                    android:id="@+id/profile_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_profile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_menu_title"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_button"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/logout_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="19dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/profile_wrapper"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageButton
+                    android:id="@+id/logout_button"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/ic_sign_out"
+                    app:layout_constraintBottom_toTopOf="@id/logout_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/logout_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logout_menu_title"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/logout_button"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/categories_btn"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:background="@drawable/ic_categories_active"-->
+<!--            android:layout_marginBottom="65dp"-->
+<!--            android:layout_marginLeft="119dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

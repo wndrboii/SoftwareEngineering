@@ -22,6 +22,8 @@ class ListOfPosilkiActivity : AppCompatActivity(), PosilkiAdapter.PosilkiAdapter
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+    private lateinit var profile: ImageButton
+
     private lateinit var add: ImageButton
 
     private lateinit var dishAdapter: PosilkiAdapter
@@ -70,6 +72,8 @@ class ListOfPosilkiActivity : AppCompatActivity(), PosilkiAdapter.PosilkiAdapter
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+        profile = findViewById(R.id.profile_button)
+
         add = findViewById(R.id.add_button)
         //goback = findViewById(R.id.goback_btn)
 
@@ -92,58 +96,44 @@ class ListOfPosilkiActivity : AppCompatActivity(), PosilkiAdapter.PosilkiAdapter
             finish()
         })
 
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         add.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext, PosilkiActivity::class.java)
             startActivity(intent)
             finish()
         })
 
-//        goback.setOnClickListener(View.OnClickListener{
-//            var intent : Intent = Intent(applicationContext, PosilkiActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        })
-
-//        dishAdapter.setOnDeleteClickListener(object : com.example.softwareengineering.PosilkiAdapter.OnDeleteClickListener {
-//            override fun onDeleteClick(position: Int) {
-//                val dish = dishList[position]
-//                dish.id?.let {
-//                    val dishRef = database.getReference("dishes/$it")
-//                    dishRef.removeValue()
-//                }
-//            }
-//        })
-
     }
 
-//    override fun onDeleteClick(position: Int) {
-//        val dish = dishList[position]
-//        dish.id?.let {
-//            val dishRef = database.getReference("dishes/$it")
-//            dishRef.removeValue().addOnSuccessListener {
-//                Toast.makeText(this, "Posiłek został pomyślnie usunięty", Toast.LENGTH_SHORT).show()
-//            }
-//                .addOnFailureListener {
-//                    Toast.makeText(
-//                        this,
-//                        "Błąd podczas usuwania posiłku: ${it.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//        }
-//    }
-//
-//    override fun onEditClick(position: Int) {
-//        val dish = dishList[position]
-//
-//        val intent = Intent(this, EditDishActivity::class.java)
-//        intent.putExtra("posilek", dish.id)
-//        startActivity(intent)
-//    }
-//
-//    override fun onCommentClick(position: Int) {
-//        TODO("Not yet implemented")
-//    }
+    override fun onDeleteClick(position: Int) {
+        val dish = dishList[position]
+        dish.id?.let {
+            val dishRef = database.getReference("dishes/$it")
+            dishRef.removeValue().addOnSuccessListener {
+                Toast.makeText(this, "Posiłek został pomyślnie usunięty", Toast.LENGTH_SHORT).show()
+            }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this,
+                        "Błąd podczas usuwania posiłku: ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    override fun onEditClick(position: Int) {
+        val dish = dishList[position]
+
+        val intent = Intent(this, EditDishActivity::class.java)
+        intent.putExtra("posilek", dish.id)
+        startActivity(intent)
+    }
 
     override fun onDishClick(position: Int) {
         val comment = dishList[position]

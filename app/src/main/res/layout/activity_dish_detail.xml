@@ -3,42 +3,67 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient_green_main">
+    android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_panel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1e5948"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/goback_btn"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_arrow_left"
+            android:layout_margin="19dp"
+            android:background="@color/transparent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/dish_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing=".1"
+            android:text="@string/dish_name_title"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/search_panel">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="50dp">
+        >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#80308878"
+            android:background="@drawable/gradient_green_main"
             android:padding="20dp">
-
-            <TextView
-                android:id="@+id/dish_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:letterSpacing=".1"
-                android:paddingVertical="18sp"
-                android:text="Dish Name"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="19dp"
-                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/dish_details"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                app:layout_constraintTop_toBottomOf="@+id/dish_name"
+                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:paddingBottom="20dp"
                 >
 
                 <TextView
@@ -132,12 +157,13 @@
             <EditText
                 android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittext"
                 android:hint="Moim zdaniem..."
-                android:inputType="text"
-                android:paddingLeft="15dp"
+                android:inputType="textMultiLine"
+                android:paddingHorizontal="15dp"
                 android:paddingBottom="55dp"
+                android:paddingTop="10dp"
                 android:textColorHint="#397C70"
                 android:textSize="12dp"
                 android:layout_marginTop="10dp"
@@ -200,16 +226,36 @@
                     android:textSize="14dp"
                     android:layout_weight="3"/>
 
+                <RelativeLayout
+                    android:id="@+id/spinner_wrapper"
+                    android:layout_width="70dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_bg"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/name_edit_text"
+                    app:layout_constraintLeft_toLeftOf="parent">
                 <Spinner
                     android:id="@+id/ratingSpinner"
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="60dp"
-                    android:background="@drawable/rating"
-                    android:entries="@array/ratings"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    />
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="35dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dropdown" />
+                </RelativeLayout>>
 
             </LinearLayout>
 
@@ -241,26 +287,19 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comments_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
+                android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/comments_list_text_view"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:paddingBottom="50dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/goback_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/ic_goback"
-        android:background="#00ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

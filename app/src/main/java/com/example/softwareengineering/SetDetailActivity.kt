@@ -59,31 +59,30 @@ class SetDetailActivity : AppCompatActivity(), PosilkiAdapter.PosilkiAdapterList
                         it
                     )
                 }
-                if (categoryRef != null) {
-                    categoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val category = dataSnapshot.getValue(ProductCategory::class.java)
-                            category?.let {
-                                val dishIds = category.dishes
-                                for (posilekSnapshot in snapshot.children) {
-                                    val product = posilekSnapshot.getValue(Posilki::class.java)
-                                    product?.let {
-                                        if (it.id in dishIds) {
-                                            posilki.add(it)
-                                        }
+
+                categoryRef?.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val category = dataSnapshot.getValue(ProductCategory::class.java)
+                        category?.let {
+                            val dishIds = category.dishesIds
+                            for (posilekSnapshot in snapshot.children) {
+                                val product = posilekSnapshot.getValue(Posilki::class.java)
+                                product?.let {
+                                    if (it.id in dishIds) {
+                                        posilki.add(it)
                                     }
                                 }
-                                dishList.addAll(posilki)
-                                dishAdapter.updateData(posilki)
                             }
+                            dishList.addAll(posilki)
+                            dishAdapter.updateData(posilki)
                         }
+                    }
 
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            // Handle the error case
-                            Log.e(TAG, "Failed to read value: ${databaseError.message}")
-                        }
-                    })
-                }
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Handle the error case
+                        Log.e(TAG, "Failed to read value: ${databaseError.message}")
+                    }
+                })
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -125,6 +124,14 @@ class SetDetailActivity : AppCompatActivity(), PosilkiAdapter.PosilkiAdapterList
         intent.putExtra("posilek", comment.id)
         intent.putExtra("sourceActivity", "SetDetail")
         startActivity(intent)
+    }
+
+    override fun onDeleteClick(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onEditClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 }

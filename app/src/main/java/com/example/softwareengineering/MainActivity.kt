@@ -14,7 +14,9 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var categories: ImageButton
+
     private lateinit var auth: FirebaseAuth
     private lateinit var textView: TextView
     private var user: FirebaseUser? = null
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+        profile = findViewById(R.id.profile_button)
+
         textView = findViewById(R.id.user)
         auth = Firebase.auth
         user = auth.currentUser
@@ -46,6 +50,12 @@ class MainActivity : AppCompatActivity() {
 
         categories.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext,CategoriesActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
             startActivity(intent)
             finish()
         })

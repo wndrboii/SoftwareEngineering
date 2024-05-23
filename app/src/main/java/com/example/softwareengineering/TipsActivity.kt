@@ -22,6 +22,8 @@ class TipsActivity : AppCompatActivity(), TipsAdapter.TipAdapterListener {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+//    private lateinit var profile: ImageButton
+
     private lateinit var remove: ImageButton
     private lateinit var tipsAdapter: TipsAdapter
     private lateinit var tipList: MutableList<Tip>
@@ -67,6 +69,8 @@ class TipsActivity : AppCompatActivity(), TipsAdapter.TipAdapterListener {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+//        profile = findViewById(R.id.profile_button)
+
         createTip = findViewById(R.id.create_tip)
 
         home.setOnClickListener(View.OnClickListener{
@@ -87,6 +91,12 @@ class TipsActivity : AppCompatActivity(), TipsAdapter.TipAdapterListener {
             startActivity(intent)
             finish()
         })
+
+//        profile.setOnClickListener(View.OnClickListener{
+//            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        })
 
         createTip.setOnClickListener(View.OnClickListener {
             var intent: Intent = Intent(applicationContext, CreateTipActivity::class.java)

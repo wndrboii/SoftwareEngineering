@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.example.softwareengineering"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -53,6 +53,7 @@ android {
 dependencies {
 
     implementation("com.google.firebase:firebase-bom:29.0.0")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("com.google.firebase:firebase-storage:20.0.0")

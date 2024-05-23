@@ -3,20 +3,28 @@ package com.example.softwareengineering
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 
 class CategoriesActivity : AppCompatActivity() {
 
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var categories: ImageButton
+
     private lateinit var skladniki: ImageButton
     private lateinit var posilki_btn: ImageButton
     private lateinit var share_btn: ImageButton
     private lateinit var water_btn: ImageButton
-    private lateinit var chart_btn: ImageButton
+    private lateinit var daily_btn: ImageButton
     private lateinit var dishcat_btn: ImageButton
     private lateinit var measurements_btn: ImageButton
     private lateinit var tips_btn: ImageButton
@@ -28,14 +36,30 @@ class CategoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
 
+        val textView = findViewById<TextView>(R.id.textview)
+
+        val text = "Woda (wkrótce...)"
+        val spannableString = SpannableString(text)
+        spannableString.setSpan(
+            RelativeSizeSpan(0.5f),
+            text.indexOf("(wkrótce...)"),
+            text.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        textView.text = spannableString
+
+
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+        profile = findViewById(R.id.profile_button)
+
         skladniki = findViewById(R.id.skladniki_btn)
         posilki_btn = findViewById(R.id.posilki_btn)
         share_btn = findViewById(R.id.share_btn)
         water_btn = findViewById(R.id.water_btn)
-        chart_btn = findViewById(R.id.chart_btn)
+        daily_btn = findViewById(R.id.daily_btn)
         dishcat_btn = findViewById(R.id.dishcat_btn)
         measurements_btn = findViewById(R.id.measurements_btn)
         tips_btn = findViewById(R.id.tips_btn)
@@ -61,8 +85,14 @@ class CategoriesActivity : AppCompatActivity() {
             finish()
         })
 
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         skladniki.setOnClickListener(View.OnClickListener{
-            var intent : Intent = Intent(applicationContext,SkladnikiActivity::class.java)
+            var intent : Intent = Intent(applicationContext,ListOfSkladnikiActivity::class.java)
             startActivity(intent)
             finish()
         })
@@ -89,8 +119,8 @@ class CategoriesActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         })
-        chart_btn.setOnClickListener(View.OnClickListener{
-            var intent : Intent = Intent(applicationContext,ChartActivity::class.java)
+        daily_btn.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,DaylistActivity::class.java)
             startActivity(intent)
             finish()
         })

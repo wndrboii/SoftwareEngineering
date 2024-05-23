@@ -15,6 +15,8 @@ class Water : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+//    private lateinit var profile: ImageButton
+
     private lateinit var water_edit: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +58,7 @@ class Water : AppCompatActivity() {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+//        profile = findViewById(R.id.profile_button)
 
         home.setOnClickListener(View.OnClickListener {
             var intent: Intent = Intent(applicationContext, MainActivity::class.java)
@@ -76,6 +79,11 @@ class Water : AppCompatActivity() {
             finish()
         })
 
+//        profile.setOnClickListener(View.OnClickListener{
+//            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        })
 
     }
 }

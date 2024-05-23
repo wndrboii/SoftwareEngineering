@@ -84,7 +84,7 @@ class CategoryEditActivity : AppCompatActivity() {
                 val cat = ProductCategory(
                     id = categoryId,
                     name = name,
-                    dishes = idList,
+                    dishesIds = idList,
                     userId = currentUserId
                 )
 

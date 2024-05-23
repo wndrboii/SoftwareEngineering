@@ -19,12 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.adapter.SkladnikiToChooseAdapter
 import com.example.softwareengineering.model.DishCategory
 import com.example.softwareengineering.model.Posilki
+import com.example.softwareengineering.model.ProductCategory
 import com.google.firebase.auth.FirebaseAuth
 import com.example.softwareengineering.model.Skladnik
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -36,10 +34,9 @@ class PosilkiActivity : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
-    private lateinit var goback: ImageButton
+    private lateinit var posilkiarr: TextView
 
     private lateinit var dishName: EditText
-    private lateinit var dishCategory: EditText
     private lateinit var dishQuantity: EditText
     private lateinit var addButton: ImageButton
     private lateinit var dialogButton: Button
@@ -54,6 +51,13 @@ class PosilkiActivity : AppCompatActivity() {
 
     private lateinit var getContent: ActivityResultLauncher<String>
 
+//    private lateinit var kategoriaText: TextView
+    private lateinit var categorySpinner: Spinner
+    private lateinit var categoryList: MutableList<ProductCategory>
+    private var selectedCategory: String = ""
+
+    private lateinit var databaseReference: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +69,57 @@ class PosilkiActivity : AppCompatActivity() {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
-        goback = findViewById(R.id.goback_btn)
+        posilkiarr = findViewById(R.id.posilki_arr_btn)
 
         addButton = findViewById(R.id.submit_btn)
 
         val database = Firebase.database.reference
+
+        //Choose category
+//        kategoriaText = findViewById(R.id.kategoriaText)
+        categorySpinner = findViewById(R.id.categorySpinner)
+
+        databaseReference = FirebaseDatabase.getInstance().reference.child("categories")
+        categoryList = mutableListOf()
+
+        val categoriesorSpinner: MutableList<String> = mutableListOf()
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                categoryList.clear()
+
+                for (categorySnapshot in snapshot.children) {
+                    val category = categorySnapshot.getValue(ProductCategory::class.java)
+                    category?.let {
+                        categoryList.add(it)
+                    }
+                }
+
+                for (category in categoryList) {
+                    categoriesorSpinner.add(category.name)
+                }
+
+                val adapter = ArrayAdapter(this@PosilkiActivity, R.layout.spinner_item_layout, categoriesorSpinner)
+                categorySpinner.adapter = adapter
+
+//                kategoriaText.text = "Kategoria"
+
+                categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        selectedCategory = categoriesorSpinner[position]
+//                        kategoriaText.text = selectedCategory
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
 
         //Choose image from gallery
         imageView = findViewById<ImageView>(R.id.image_view)
@@ -115,11 +165,13 @@ class PosilkiActivity : AppCompatActivity() {
             finish()
         })
 
-        goback.setOnClickListener(View.OnClickListener {
+        posilkiarr.setOnClickListener(View.OnClickListener {
+            FirebaseAuth.getInstance().signOut()
             var intent: Intent = Intent(applicationContext, ListOfPosilkiActivity::class.java)
             startActivity(intent)
             finish()
         })
+
     }
 
     private fun showCustomDialog() {
@@ -156,7 +208,7 @@ class PosilkiActivity : AppCompatActivity() {
 
 
         builder.setTitle("Wybierz składniki")
-            .setMessage("Kliknij checkbox'a żeby dodać składnik \nNazwa | kalorii | białko | weglewodany | tłuszcz")
+            .setMessage("Nazwa \nKalorie | Białko | Weglewodany | Tłuszcz")
             .setView(dialogLayout)
             .setPositiveButton("OK") { dialog, which ->
                 selectedProducts = adapter.getData().filter { it.checked }
@@ -170,15 +222,18 @@ class PosilkiActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             dishName = findViewById<EditText>(R.id.name_edit_text)
-            dishCategory = findViewById<EditText>(R.id.category_edit_text)
             dishQuantity = findViewById<EditText>(R.id.ilosc_edit_text)
 
             val name = dishName.text.toString()
-            val category = dishCategory.text.toString()
+            val category = selectedCategory
             val quantity = dishQuantity.text.toString().toIntOrNull()
 
             if (name.isBlank() || category.isBlank() || quantity == null || selectedProducts.isEmpty()) {
                 Toast.makeText(this, "Wszystkie pola muszą być wypełnione poprawnie", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (photoUrl.isBlank()) {
+                Toast.makeText(this, "Pobieram zdjęcie...", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -186,58 +241,60 @@ class PosilkiActivity : AppCompatActivity() {
             val currentUser = FirebaseAuth.getInstance().currentUser
             val currentUserId = currentUser?.uid
 
-            var categoryId: String
-            val categoryRef = database.child("categories").child(category)
-            categoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            val categoriesRef = database.child("categories")
+            val query = categoriesRef.orderByChild("name").equalTo(category)
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val dishCat: DishCategory
-
                     if (dataSnapshot.exists()) {
-                        // Category already exists, retrieve the ID
-                        categoryId = dataSnapshot.key!!
-                        dishCat = dataSnapshot.getValue(DishCategory::class.java)!!
-                    } else {
-                        // Category does not exist, create a new one
-                        categoryId = categoryRef.push().key!!
-                        dishCat = DishCategory(id = categoryId, name = category)
-                        categoryRef.setValue(dishCat)
-                    }
-                    val dish = Posilki(
-                        id = database.child("dishes").push().key,
-                        name = name,
-                        category = categoryId,
-                        quantity = quantity,
-                        products = selectedProducts,
-                        photoUrl = photoUrl,
-                        comments = null,
-                        userId = currentUserId
-                    )
-                    if (dish.id != null) {
-                        database.child("dishes").child(dish.id!!).setValue(dish)
-                            .addOnSuccessListener {
-                                Toast.makeText(applicationContext, "Nowy posiłek dodany pomyślnie", Toast.LENGTH_SHORT).show()
-                                dishName.text.clear()
-                                dishCategory.text.clear()
-                                dishQuantity.text.clear()
-                                imageView.setImageBitmap(null)
+                        // Category found, retrieve the ID
+                        val categorySnapshot = dataSnapshot.children.first()
+                        val categoryId = categorySnapshot.key
 
-                                var intent: Intent = Intent(applicationContext, ListOfPosilkiActivity::class.java)
-                                startActivity(intent)
-                                finish()
+                        val dish = categoryId?.let { it1 ->
+                            Posilki(
+                                id = database.child("dishes").push().key,
+                                name = name,
+                                category = it1,
+                                quantity = quantity,
+                                products = selectedProducts,
+                                photoUrl = photoUrl,
+                                comments = null,
+                                userId = currentUserId
+                            )
+                        }
+
+                        if (dish != null) {
+                            if (dish.id != null) {
+                                database.child("dishes").child(dish.id!!).setValue(dish)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(applicationContext, "Nowy posiłek dodany pomyślnie", Toast.LENGTH_SHORT).show()
+                                        dishName.text.clear()
+                                        dishQuantity.text.clear()
+                                        imageView.setImageBitmap(null)
+
+                                        val intent = Intent(applicationContext, ListOfPosilkiActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Błąd podczas dodawania posiłka: ${it.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                             }
-                            .addOnFailureListener {
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Błąd podczas dodawania posiłka: ${it.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        }
+                    } else {
+                        // Category not found
+                        Toast.makeText(applicationContext, "Category not found", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle the error case
-                    println("Error retrieving category: ${databaseError.message}")
+                    Log.e(TAG, "Error retrieving category: ${databaseError.message}")
                 }
             })
         }

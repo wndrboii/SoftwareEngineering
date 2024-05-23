@@ -4,12 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/avatar_green"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,27 +17,34 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/avatar_green"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/tip_user_name"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="10dp"
-                android:text="User Name"
+                android:text="@string/user_name"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/tip_topic"
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="30dp"
-                android:text="Topic"
-                android:textColor="@color/white"
-                android:textSize="15dp"
-                android:textStyle="italic" />
+                android:text="@string/topic"
+                android:gravity="center"
+                android:textColor="@color/yellow"
+                android:textSize="15sp"
+                android:textStyle="italic"/>
 
             <ImageView
                 android:id="@+id/edit_btn"
@@ -51,16 +52,16 @@
                 android:layout_height="20dp"
                 android:background="@drawable/ic_edit"
                 android:backgroundTint="@color/white"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="45dp"/>
+                android:layout_marginEnd="45dp"/>
             <ImageView
                 android:id="@+id/remove_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/ic_delete"
                 android:backgroundTint="@color/white" />
 
@@ -71,8 +72,8 @@
             android:id="@+id/tip_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Some text..."
-            android:textSize="14dp"
+            android:text="@string/some_text"
+            android:textSize="14sp"
             android:layout_marginHorizontal="15dp"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/tips_top_layout"
@@ -82,9 +83,9 @@
             android:id="@+id/tip_date"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="20.04.2023"
-            android:textSize="14dp"
-            android:layout_marginRight="15dp"
+            android:text="@string/_20_04_2023"
+            android:textSize="14sp"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/white"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/tip_description"

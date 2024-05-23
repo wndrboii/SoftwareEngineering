@@ -1,231 +1,362 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_bottom_main_page">
-    <ScrollView
-        android:id="@+id/scroll_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient_green_main">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="200dp"
-        android:background="@drawable/rounded_background"
-        android:padding="15dp">
+        android:layout_marginBottom="170dp"
+        android:background="@drawable/create_bg">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:letterSpacing=".1"
+            android:paddingTop="40dp"
+            android:paddingBottom="25dp"
+            android:text="Edytuj pomiar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/header_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:letterSpacing=".1"
-                android:paddingVertical="20dp"
-                android:text="Edytuj pomiar"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="19dp"
-                android:textStyle="bold" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintTop_toBottomOf="@id/header_title">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginBottom="20dp">
+                android:layout_height="500dp">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/height_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Wzrost"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/height"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz wzrost"
-                    android:inputType="text"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/height_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/height_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/weight_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Waga"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/height"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/weight"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="105dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz wagę"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/weight_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/weight_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/shoulder_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="160dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód barków"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/weight"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/shoulder"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="185dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód barków"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/shoulder_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/shoulder_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/arm_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="240dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód ramienia"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/shoulder"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/arm"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="265dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód ramienia"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/arm_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/arm_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/chest_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="320dp"
-                    android:text="Obwód klatki pierściwej"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="Obwód klatki pierściowej"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/arm"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/chest"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="345dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód klatki pierściowej"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
-                <TextView
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/chest_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/chest_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/waist_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="400dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód talii"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/chest"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/waist"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="425dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód talii"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
-                <TextView
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/waist_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/waist_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/hips_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="480dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód bioder"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/waist"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/hips"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="505dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód bioder"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
-                <TextView
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/hips_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/hips_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/thigh_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="560dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód ud"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/hips"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/thigh"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="585dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód ud"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
-                <TextView
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/thigh_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/thigh_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/calves_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="640dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Obwód łydki"
                     android:textColor="@color/white"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:letterSpacing=".05"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/thigh"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <EditText
                     android:id="@+id/calves"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="665dp"
-                    android:background="@color/dark2"
-                    android:hint="Wpisz obwód łydki"
-                    android:inputType="number"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
-                    android:textColorHint="@color/grey"
-                    android:textSize="12dp" />
+                    android:textSize="12sp"
+                    android:textColorHint="#397C70"
+                    app:layout_constraintTop_toBottomOf="@+id/calves_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#397C70"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/calves_label"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
-            </RelativeLayout>
-        </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/submit_btn"
@@ -233,12 +364,10 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="140dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/ic_checkmark"
-        android:background="#00ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:background="#00ffffff"/>
 
     <TextView
         android:id="@+id/measurements_arr"
@@ -247,90 +376,153 @@
         android:layout_alignParentBottom="true"
         android:text="Spojrzeć na historię pomiarów"
         android:textSize="14dp"
-        android:textColor="@color/grey"
+        android:textColor="@color/white"
         android:textAlignment="center"
-        android:layout_marginBottom="165dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_marginBottom="135dp"
+        android:textStyle="bold"/>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menu_panel"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:background="@drawable/menu_background"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageButton
-            android:id="@+id/home_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="26dp"
-            android:background="@drawable/ic_home"
-            android:backgroundTint="@color/grey" />
-
-        <TextView
-            android:layout_width="84dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_wrapper"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="80dp"
-            android:layout_marginBottom="12dp"
-            android:text="Home"
-            android:textColor="@color/grey"
-            android:textSize="11sp" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/categories_wrapper">
 
-        <ImageButton
-            android:id="@+id/categories_btn"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_menu"
-            android:backgroundTint="@color/white" />
+            <ImageButton
+                android:id="@+id/home_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
-        <TextView
-            android:layout_width="84dp"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_menu_title"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:paddingVertical="1dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/categories_wrapper"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="12dp"
-            android:text="Categories"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/home_wrapper"
+            app:layout_constraintRight_toLeftOf="@id/profile_wrapper">
 
-        <ImageButton
-            android:id="@+id/logout_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginBottom="33dp"
-            android:background="@drawable/ic_logout"
-            android:backgroundTint="@color/grey" />
+            <ImageButton
+                android:id="@+id/categories_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_categories"
+                app:layout_constraintBottom_toTopOf="@id/categories_label"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:layout_width="84dp"
+            <TextView
+                android:id="@+id/categories_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categories_menu_title"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="7dp"
+                android:background="@drawable/menu_active_element_background"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/categories_btn"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profile_wrapper"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="47dp"
-            android:layout_marginBottom="12dp"
-            android:text="Logout"
-            android:textAlignment="center"
-            android:textColor="@color/grey"
-            android:textSize="11sp" />
-    </RelativeLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/categories_wrapper"
+            app:layout_constraintRight_toLeftOf="@id/logout_wrapper">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/profile_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_menu_title"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/profile_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/logout_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="19dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/profile_wrapper"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageButton
+                android:id="@+id/logout_button"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_sign_out"
+                app:layout_constraintBottom_toTopOf="@id/logout_label"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:id="@+id/logout_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logout_menu_title"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/logout_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
+

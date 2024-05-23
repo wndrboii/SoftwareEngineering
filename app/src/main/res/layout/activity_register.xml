@@ -9,24 +9,29 @@
     tools:context=".register"
     android:background="@drawable/gradient_register">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="100dp"
-        android:elevation="5dp"
-        android:background="#50308878">
+        android:layout_marginVertical="110dp"
+        app:cardBackgroundColor="#50308878"
+        app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/sign_up_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="@string/sign_up_title"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="30dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -34,9 +39,9 @@
             android:id="@+id/email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_marginLeft="40dp"
-            android:text="Email"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="40dp"
+            android:text="@string/email_label"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:letterSpacing=".05"
@@ -52,10 +57,13 @@
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/edittext"
             android:inputType="textEmailAddress"
-            android:paddingLeft="15dp"
+            android:padding="15dp"
             android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@+id/email_label"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:autofillHints="email"
+            android:labelFor="@+id/email_label"
+            tools:ignore="LabelFor" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -70,8 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:text="Password"
+            android:layout_marginStart="40dp"
+            android:text="@string/password_label"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:letterSpacing=".05"
@@ -87,10 +95,13 @@
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/edittext"
             android:inputType="textPassword"
-            android:paddingLeft="15dp"
+            android:padding="15dp"
             android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@+id/password_label"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:autofillHints="password"
+            android:labelFor="@+id/password_label"
+            tools:ignore="LabelFor" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -111,9 +122,9 @@
 
         <ImageButton
             android:id="@+id/btn_register"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="85dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="130dp"
             android:layout_marginBottom="165dp"
@@ -121,7 +132,8 @@
             android:src="@drawable/ic_submit"
             app:layout_constraintTop_toBottomOf="@+id/password"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:contentDescription="@string/submit_button_alt" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -137,26 +149,28 @@
                 android:id="@+id/login_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an account?"
-                android:textSize="9sp"
+                android:text="@string/already_have_an_account"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 />
 
             <TextView
                 android:id="@+id/loginNow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign in"
-                android:textSize="9sp"
+                android:text="@string/sign_up_title"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="#6AFFB8"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                  />
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

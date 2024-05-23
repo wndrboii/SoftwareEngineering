@@ -4,7 +4,8 @@
     android:layout_height="100dp"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="@color/white10"
+    android:background="#A0327D68"
+    android:elevation="5dp"
     android:layout_marginTop="10dp">
 
 
@@ -73,6 +74,23 @@
         android:layout_gravity="center"
         android:background="@drawable/ic_delete"
         android:backgroundTint="@color/white"
+        />
+    <ImageView
+        android:id="@+id/edit_nonactive_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_edit"
+        android:backgroundTint="#c73650"
+        />
+    <ImageView
+        android:id="@+id/remove_nonactive_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_delete"
+        android:backgroundTint="#c73650"
         />
 
 

@@ -3,6 +3,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.R
@@ -46,15 +47,23 @@ class CategoryAdapter(
         val isCreatedByCurrentUser = currentItem.userId == currentUserId
 
         // Set visibility and clickability of edit and delete buttons based on the creator
-        if (isCreatedByCurrentUser) {
+        if (currentUserId == currentItem.userId) {
             holder.deleteButton.visibility = View.VISIBLE
             holder.deleteButton.isEnabled = true
             holder.editButton.visibility = View.VISIBLE
             holder.editButton.isEnabled = true
+            holder.deleteNonActiveButton.visibility = View.GONE
+            holder.deleteNonActiveButton.isEnabled = false
+            holder.editNonActiveButton.visibility = View.GONE
+            holder.editNonActiveButton.isEnabled = false
         } else {
-            holder.deleteButton.visibility = View.INVISIBLE
+            holder.deleteNonActiveButton.visibility = View.VISIBLE
+            holder.deleteNonActiveButton.isEnabled = true
+            holder.editNonActiveButton.visibility = View.VISIBLE
+            holder.editNonActiveButton.isEnabled = true
+            holder.deleteButton.visibility = View.GONE
             holder.deleteButton.isEnabled = false
-            holder.editButton.visibility = View.INVISIBLE
+            holder.editButton.visibility = View.GONE
             holder.editButton.isEnabled = false
         }
     }
@@ -70,7 +79,9 @@ class CategoryAdapter(
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.category_name)
         val deleteButton: AppCompatImageView = itemView.findViewById(R.id.remove_btn)
+        val deleteNonActiveButton: AppCompatImageView = itemView.findViewById(R.id.remove_nonactive_btn)
         val editButton: AppCompatImageView = itemView.findViewById(R.id.edit_btn)
+        val editNonActiveButton: AppCompatImageView = itemView.findViewById(R.id.edit_nonactive_btn)
 
         private var currentCat: ProductCategory? = null
 
@@ -86,6 +97,12 @@ class CategoryAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onEditClick(position)
                 }
+            }
+            deleteNonActiveButton.setOnClickListener {
+                Toast.makeText(itemView.context, "Tylko autorzy zestawów mogą je usuwać lub edytować", Toast.LENGTH_SHORT).show();
+            }
+            editNonActiveButton.setOnClickListener {
+                Toast.makeText(itemView.context, "Tylko autorzy zestawów mogą je usuwać lub edytować", Toast.LENGTH_SHORT).show();
             }
 
         }

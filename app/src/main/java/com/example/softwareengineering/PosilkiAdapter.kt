@@ -1,11 +1,15 @@
 package com.example.softwareengineering
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.model.Posilki
 
@@ -15,18 +19,8 @@ class PosilkiAdapter(
 ) : RecyclerView.Adapter<PosilkiAdapter.PosilkiViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PosilkiViewHolder {
-        val layoutResId = when (viewType) {
-            0 -> R.layout.posilki_item
-            1 -> R.layout.posilki_item_small
-            else -> throw IllegalArgumentException("Unknown viewType: $viewType")
-        }
-
-        val itemView = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.posilki_item, parent, false)
         return PosilkiViewHolder(itemView)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position % 2
     }
 
     override fun onBindViewHolder(holder: PosilkiViewHolder, position: Int) {
@@ -48,21 +42,59 @@ class PosilkiAdapter(
         notifyDataSetChanged()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     inner class PosilkiViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photoImageView: AppCompatImageView = itemView.findViewById(R.id.image_holder)
         val nameTextView: TextView = itemView.findViewById(R.id.posilki_name)
+        private val overlayLayout: ConstraintLayout = itemView.findViewById(R.id.overlay_Layout)
 
         init {
+            var isTouch: Boolean = false
+            photoImageView.setOnLongClickListener {
+                isTouch = true
+                showOverlay()
+                false
+            }
+
+            overlayLayout.setOnClickListener {
+                isTouch = false
+                hideOverlay()
+            }
+
             photoImageView.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && !isTouch) {
                     listener.onDishClick(position)
                 }
             }
+
+            overlayLayout.findViewById<ImageView>(R.id.edit_btn).setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onEditClick(position)
+                }
+            }
+
+            overlayLayout.findViewById<ImageView>(R.id.remove_btn).setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDeleteClick(position)
+                }
+            }
+        }
+
+        private fun showOverlay() {
+            overlayLayout.visibility = View.VISIBLE
+        }
+
+        private fun hideOverlay() {
+            overlayLayout.visibility = View.GONE
         }
     }
 
     interface PosilkiAdapterListener {
         fun onDishClick(position: Int)
+        fun onDeleteClick(position: Int)
+        fun onEditClick(position: Int)
     }
 }

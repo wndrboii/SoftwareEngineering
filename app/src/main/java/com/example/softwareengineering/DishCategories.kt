@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.softwareengineering.adapter.PosilkiToChooseAdapter
@@ -27,6 +26,8 @@ class DishCategories : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+    private lateinit var profile: ImageButton
+
     private lateinit var categoryName: EditText
     private lateinit var addButton: ImageButton
     private lateinit var dialogButton: Button
@@ -35,11 +36,6 @@ class DishCategories : AppCompatActivity() {
     private lateinit var adapter: PosilkiToChooseAdapter
 
     private var selectedDishes: List<Posilki> = emptyList()
-
-    private lateinit var chooseImageButton: Button
-
-    private lateinit var getContent: ActivityResultLauncher<String>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +47,9 @@ class DishCategories : AppCompatActivity() {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+        profile = findViewById(R.id.profile_button)
 
         addButton = findViewById(R.id.submit_btn)
-
-        val database = Firebase.database.reference
-
-
 
         //Menu navigation
         home.setOnClickListener(View.OnClickListener {
@@ -74,6 +67,12 @@ class DishCategories : AppCompatActivity() {
         logout.setOnClickListener(View.OnClickListener {
             FirebaseAuth.getInstance().signOut()
             var intent: Intent = Intent(applicationContext, login::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
             startActivity(intent)
             finish()
         })
@@ -108,6 +107,7 @@ class DishCategories : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val dishes = mutableListOf<Posilki>()
+
         adapter = PosilkiToChooseAdapter(dishes) { dish ->
             if (dish.checked) {
                 dishes.add(dish)
@@ -118,15 +118,14 @@ class DishCategories : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
-
         builder.setTitle("Wybierz posiłki")
-            .setMessage("Kliknij checkbox'a żeby dodać posilek \nNazwa | kalorie | białko | weglewodany | tłuszcz")
+            .setMessage("Nazwa \nKalorie | Białko | Weglewodany | Tłuszcz")
             .setView(dialogLayout)
-            .setPositiveButton("OK") { dialog, which ->
+            .setPositiveButton("OK") { _, _ ->
                 selectedDishes = adapter.getData().filter { it.checked }
                 Log.d(ContentValues.TAG, "Selected dishes: $selectedDishes")
             }
-            .setNegativeButton("Cancel") { dialog, which ->
+            .setNegativeButton("Cancel") { _, _ ->
 
             }
             .create()
@@ -140,15 +139,15 @@ class DishCategories : AppCompatActivity() {
                 val database = Firebase.database.reference
                 val currentUser = FirebaseAuth.getInstance().currentUser
                 val currentUserId = currentUser?.uid
-                val idList = mutableListOf<String?>()
+                val dishesIds = mutableListOf<String?>()
 
                 for (obj in selectedDishes) {
-                    idList.add(obj.id)
+                    dishesIds.add(obj.id)
                 }
                 val cat = ProductCategory(
                     id = database.child("sets").push().key,
                     name = name,
-                    dishes = idList,
+                    dishesIds = dishesIds,
                     userId = currentUserId
                 )
 

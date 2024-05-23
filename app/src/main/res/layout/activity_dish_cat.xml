@@ -33,6 +33,17 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/kategorie_arr_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Utworzyć nową kategorię"
+        android:textSize="14dp"
+        android:textColor="@color/grey"
+        android:textAlignment="center"
+        android:layout_marginBottom="165dp"
+        android:textStyle="bold"/>
 
     <RelativeLayout
         android:id="@+id/menu_panel"

@@ -17,7 +17,7 @@ class NotificationUtils {
     private val CHANNEL_ID = "YourChannelId"
 
     // Method to schedule the notification
-    @SuppressLint("UnspecifiedImmutableFlag")
+    @SuppressLint("UnspecifiedImmutableFlag", "ScheduleExactAlarm")
     fun scheduleNotification(context: Context, dailyNutrition: DailyNutrition) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
