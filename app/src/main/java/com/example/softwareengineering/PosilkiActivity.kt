@@ -1,32 +1,34 @@
 package com.example.softwareengineering
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.adapter.SkladnikiToChooseAdapter
-import com.example.softwareengineering.model.DishCategory
-import com.example.softwareengineering.model.Posilki
-import com.example.softwareengineering.model.ProductCategory
 import com.google.firebase.auth.FirebaseAuth
-import com.example.softwareengineering.model.Skladnik
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import java.io.InputStream
+import model.Posilki
+import model.ProductCategory
+import model.SkladPosilku
+import model.Skladnik
 
 
 class PosilkiActivity : AppCompatActivity() {
@@ -34,19 +36,23 @@ class PosilkiActivity : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
-    private lateinit var posilkiarr: TextView
+    private lateinit var profile: ImageButton
+    private lateinit var posilkiarr: ImageButton
 
     private lateinit var dishName: EditText
-    private lateinit var dishQuantity: EditText
     private lateinit var addButton: ImageButton
     private lateinit var dialogButton: Button
 
     private lateinit var adapter: SkladnikiToChooseAdapter
 
-    private var selectedProducts: List<Skladnik> = emptyList()
+    private var amounts: Map<String?, Int> = mutableMapOf()
 
     private lateinit var imageView: ImageView
     private lateinit var chooseImageButton: Button
+
+    private lateinit var nameWrapper: ConstraintLayout
+    private lateinit var selectedImageWrapper: ConstraintLayout
+
     private var photoUrl: String = ""
 
     private lateinit var getContent: ActivityResultLauncher<String>
@@ -58,7 +64,7 @@ class PosilkiActivity : AppCompatActivity() {
 
     private lateinit var databaseReference: DatabaseReference
 
-
+    @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posilki)
@@ -68,12 +74,12 @@ class PosilkiActivity : AppCompatActivity() {
 
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
+        profile = findViewById(R.id.profile_button)
         categories = findViewById(R.id.categories_btn)
         posilkiarr = findViewById(R.id.posilki_arr_btn)
 
         addButton = findViewById(R.id.submit_btn)
 
-        val database = Firebase.database.reference
 
         //Choose category
 //        kategoriaText = findViewById(R.id.kategoriaText)
@@ -124,11 +130,20 @@ class PosilkiActivity : AppCompatActivity() {
         //Choose image from gallery
         imageView = findViewById<ImageView>(R.id.image_view)
         chooseImageButton = findViewById<Button>(R.id.choose_image_button)
+        nameWrapper = findViewById<ConstraintLayout>(R.id.name_wrapper)
+        selectedImageWrapper = findViewById<ConstraintLayout>(R.id.selected_image_wrapper)
 
         val storageRef = FirebaseStorage.getInstance().reference.child("images")
 
         getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri != null) {
+                selectedImageWrapper.visibility = View.VISIBLE
+
+                val layoutParams = nameWrapper.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.setMargins(0, 35, 0, 0)
+
+                nameWrapper.layoutParams = layoutParams
+
                 imageView.setImageURI(uri)
                 val imageRef = storageRef.child(uri.lastPathSegment!!.substringAfterLast("/"))
                 val uploadTask = contentResolver?.openInputStream(uri)?.readBytes()?.let { imageRef.putBytes(it) }
@@ -158,6 +173,12 @@ class PosilkiActivity : AppCompatActivity() {
             finish()
         })
 
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         logout.setOnClickListener(View.OnClickListener {
             FirebaseAuth.getInstance().signOut()
             var intent: Intent = Intent(applicationContext, login::class.java)
@@ -175,12 +196,19 @@ class PosilkiActivity : AppCompatActivity() {
     }
 
     private fun showCustomDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this,R.style.AlertDialogProducts)
         val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
         val recyclerView = dialogLayout.findViewById<RecyclerView>(R.id.ingredients_rv)
 
-        val database = FirebaseDatabase.getInstance()
-        val productsRef = database.getReference("products")
+        recyclerView.apply {
+            // Set the max height of the RecyclerView
+            val displayMetrics = context.resources.displayMetrics
+            layoutParams.height = (displayMetrics.heightPixels * 0.5).toInt() // This sets the max height to 50% of screen height
+            requestLayout()
+        }
+
+        val database = Firebase.database.reference
+        val productsRef = database.child("products")
         val productsListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val products = dataSnapshot.children.mapNotNull { it.getValue(Skladnik::class.java) }
@@ -193,12 +221,15 @@ class PosilkiActivity : AppCompatActivity() {
         }
         productsRef.addValueEventListener(productsListener)
 
+        val amountMap = mutableMapOf<String, Int>()
         recyclerView.layoutManager = LinearLayoutManager(this)
-
+        var dishId = database.child("dishes").push().key ?: ""
         val products = mutableListOf<Skladnik>()
-        adapter = SkladnikiToChooseAdapter(products) { product ->
-            if (product.checked) {
+        adapter = SkladnikiToChooseAdapter(products, dishId) { product, amount ->
+            if (product.checked && amount > 0) {
                 products.add(product)
+                val productId = product.id ?: ""
+                amountMap[productId] = amount
             } else {
                 products.remove(product)
             }
@@ -211,8 +242,7 @@ class PosilkiActivity : AppCompatActivity() {
             .setMessage("Nazwa \nKalorie | Białko | Weglewodany | Tłuszcz")
             .setView(dialogLayout)
             .setPositiveButton("OK") { dialog, which ->
-                selectedProducts = adapter.getData().filter { it.checked }
-                Log.d(TAG, "Selected products: $selectedProducts")
+                amounts = adapter.amountMap
             }
             .setNegativeButton("Cancel") { dialog, which ->
 
@@ -220,15 +250,14 @@ class PosilkiActivity : AppCompatActivity() {
             .create()
             .show()
 
+
         addButton.setOnClickListener {
             dishName = findViewById<EditText>(R.id.name_edit_text)
-            dishQuantity = findViewById<EditText>(R.id.ilosc_edit_text)
 
             val name = dishName.text.toString()
             val category = selectedCategory
-            val quantity = dishQuantity.text.toString().toIntOrNull()
 
-            if (name.isBlank() || category.isBlank() || quantity == null || selectedProducts.isEmpty()) {
+            if (name.isBlank() || category.isBlank() || amounts.isEmpty()) {
                 Toast.makeText(this, "Wszystkie pola muszą być wypełnione poprawnie", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -237,7 +266,7 @@ class PosilkiActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val database = Firebase.database.reference
+
             val currentUser = FirebaseAuth.getInstance().currentUser
             val currentUserId = currentUser?.uid
 
@@ -251,13 +280,27 @@ class PosilkiActivity : AppCompatActivity() {
                         val categorySnapshot = dataSnapshot.children.first()
                         val categoryId = categorySnapshot.key
 
+
+                        val collectionRef = database.child("composition")
+
+                        for ((skladnikId, amount) in amounts) {
+                            if(amount > 0) {
+                                val skladPosilku = skladnikId?.let { it1 ->
+                                    SkladPosilku(
+                                        posilkiId = dishId,
+                                        skladnikId = it1,
+                                        amount = amount
+                                    )
+                                }
+                                collectionRef.push().setValue(skladPosilku)
+                            }
+                        }
+
                         val dish = categoryId?.let { it1 ->
                             Posilki(
-                                id = database.child("dishes").push().key,
+                                id = dishId,
                                 name = name,
                                 category = it1,
-                                quantity = quantity,
-                                products = selectedProducts,
                                 photoUrl = photoUrl,
                                 comments = null,
                                 userId = currentUserId
@@ -270,7 +313,6 @@ class PosilkiActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         Toast.makeText(applicationContext, "Nowy posiłek dodany pomyślnie", Toast.LENGTH_SHORT).show()
                                         dishName.text.clear()
-                                        dishQuantity.text.clear()
                                         imageView.setImageBitmap(null)
 
                                         val intent = Intent(applicationContext, ListOfPosilkiActivity::class.java)

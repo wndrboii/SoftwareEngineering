@@ -1,6 +1,5 @@
 package com.example.softwareengineering
 
-import ProductAdapterDishDetails
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.content.Context
@@ -11,41 +10,32 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.softwareengineering.model.Comment
-import com.example.softwareengineering.model.DailyNutrition
-import com.example.softwareengineering.model.Posilki
-import com.example.softwareengineering.model.Skladnik
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import java.lang.Math.round
-import java.text.DecimalFormat
+import model.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.ProductAdapterDishDetailsListener {
 
-    private lateinit var logout: ImageButton
-    private lateinit var home: ImageButton
-    private lateinit var categories: ImageButton
     private lateinit var goback: ImageButton
 
     private lateinit var nameField: TextView
     private lateinit var average: TextView
     private lateinit var categoryField: TextView
-    private lateinit var quantityField: TextView
+
+
     private lateinit var dishImage: ImageView
-    private lateinit var kcal: TextView
-    private lateinit var proteins: TextView
-    private lateinit var carbs: TextView
-    private lateinit var fats: TextView
 
     private lateinit var rating_spn: Spinner
-    private lateinit var clock: ImageView
 
     private lateinit var productAdapter: ProductAdapterDishDetails
     private lateinit var productList: MutableList<Skladnik>
@@ -59,15 +49,16 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
 
     private var dishName: String? = ""
     private var dishCategory: String? = ""
-    private var dishQuantity: Int? = 1
+
+
+    private var userPhotoUrl: String? = ""
+
+
     private lateinit var dishCalories: TextView
     private lateinit var dishProteins: TextView
     private lateinit var dishCarbs: TextView
     private lateinit var dishFats: TextView
 
-    private lateinit var commentRecyclerView: RecyclerView
-    private lateinit var commentAdapter: CommentAdapter
-    private lateinit var commentList: MutableList<Comment>
     private lateinit var currentUserId: String
 
     //Average dishes rating
@@ -88,44 +79,125 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
         }
     }
 
+
     @SuppressLint("SetTextI18n")
-    fun calculateAverageMacro(posilek: Posilki) {
-        val products = posilek.products
+    fun calculateAverageMacro(posilek: Posilki, callback: (amount: Int) -> Unit) {
+        val posilkiId = posilek.id
+        val databaseReference = FirebaseDatabase.getInstance().reference.child("composition")
 
-        var sumCalories: Int = 0
-        var sumProteins: Int = 0
-        var sumCarbs: Int = 0
-        var sumFats: Int = 0
-        products.forEach {
-            sumCalories += it.calories
-            sumProteins += it.protein
-            sumCarbs += it.carbs
-            sumFats += it.fat
-        }
+        var sumCalories: Double = 0.0
+        var sumProteins: Double = 0.0
+        var sumCarbs: Double = 0.0
+        var sumFats: Double = 0.0
+        var amount: Int = 0
+        val skladnikIds: MutableList<String> = mutableListOf()
 
-        dishCalories.text = "kcal: $sumCalories"
-        dishProteins.text = "p: $sumProteins"
-        dishCarbs.text = "c: $sumCarbs"
-        dishFats.text = "f: $sumFats"
+        databaseReference.orderByChild("posilkiId").equalTo(posilkiId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (skladPosilkiSnapshot in snapshot.children) {
+                        val skladPosilki = skladPosilkiSnapshot.getValue(SkladPosilku::class.java)
+                        skladPosilki?.let {
+                            val skladnikId = it.skladnikId
+                            val amountInGrams = it.amount
+
+                            skladnikIds.add(skladnikId)
+                            amount += amountInGrams
+
+                            val skladnikReference =
+                                FirebaseDatabase.getInstance().reference.child("products")
+                                    .child(skladnikId)
+                            skladnikReference.addListenerForSingleValueEvent(object :
+                                ValueEventListener {
+                                override fun onDataChange(skladnikSnapshot: DataSnapshot) {
+                                    val skladnik = skladnikSnapshot.getValue(Skladnik::class.java)
+                                    skladnik?.let { skladnik ->
+                                        val skladnikCaloriesPer100g = skladnik.calories
+                                        val skladnikProteinsPer100g = skladnik.protein
+                                        val skladnikCarbsPer100g = skladnik.carbs
+                                        val skladnikFatsPer100g = skladnik.fat
+
+                                        val skladnikCalories: Double =
+                                            (skladnikCaloriesPer100g * amountInGrams) / 100
+                                        val skladnikProteins: Double =
+                                            (skladnikProteinsPer100g * amountInGrams) / 100
+                                        val skladnikCarbs: Double =
+                                            (skladnikCarbsPer100g * amountInGrams) / 100
+                                        val skladnikFats: Double =
+                                            (skladnikFatsPer100g * amountInGrams) / 100
+
+                                        sumCalories += skladnikCalories
+                                        sumProteins += skladnikProteins
+                                        sumCarbs += skladnikCarbs
+                                        sumFats += skladnikFats
+                                    }
+
+                                    val weightRatio = 100.0 / amount
+                                    val caloriesPer100g: Double = sumCalories * weightRatio
+                                    val proteinsPer100g: Double = sumProteins * weightRatio
+                                    val carbsPer100g: Double = sumCarbs * weightRatio
+                                    val fatsPer100g: Double = sumFats * weightRatio
+
+                                    val roundedCalories: String =
+                                        String.format("%.1f", caloriesPer100g)
+                                    val roundedProteins: String =
+                                        String.format("%.1f", proteinsPer100g)
+                                    val roundedCarbs: String = String.format("%.1f", carbsPer100g)
+                                    val roundedFats: String = String.format("%.1f", fatsPer100g)
+
+                                    dishCalories.text = "kcal: $roundedCalories"
+                                    dishProteins.text = "b: $roundedProteins"
+                                    dishCarbs.text = "w: $roundedCarbs"
+                                    dishFats.text = "tł: $roundedFats | 100g."
+
+                                    callback(amount)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    // Handle error
+                                }
+                            })
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle error
+                }
+            })
     }
 
+    fun fetchCategory(categoryId: String, callback: (ProductCategory) -> Unit) {
+        val categoryRef = FirebaseDatabase.getInstance().getReference("categories").child(categoryId)
+        categoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val category = dataSnapshot.getValue(ProductCategory::class.java)
+                if (category != null) {
+                    callback(category)
+                } else {
+                    Log.e("Firebase", "Category not found")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Firebase", "Error getting category", error.toException())
+            }
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dish_detail)
 
+
         nameField = findViewById(R.id.dish_name)
         dishImage = findViewById(R.id.dish_image)
-        kcal = findViewById(R.id.dish_kcal)
-        proteins = findViewById(R.id.dish_proteins)
-        carbs = findViewById(R.id.dish_carbs)
-        fats = findViewById(R.id.dish_fats)
 
         dishCalories = findViewById(R.id.dish_kcal)
         dishProteins = findViewById(R.id.dish_proteins)
         dishCarbs = findViewById(R.id.dish_carbs)
         dishFats = findViewById(R.id.dish_fats)
-
+        categoryField = findViewById(R.id.category)
         // Initialize Firebase database
         val database = Firebase.database.reference
         currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
@@ -142,33 +214,47 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
             val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
             val currentMinute = currentTime.get(Calendar.MINUTE)
 
-            val timePickerDialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+            val timePickerDialog = TimePickerDialog(context,R.style.MyTimePickerDialogTheme, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val timeToEat = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
-                val database = FirebaseDatabase.getInstance()
-                val dailyNutritionRef = database.getReference("scheduled")
 
-                // Generate a unique key for the new dailyNutrition entry
-                val newDailyNutritionKey = dailyNutritionRef.push().key
+                val daysOfWeek = arrayOf("Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela")
 
-                val dailyNutrition = DailyNutrition(
-                    id = newDailyNutritionKey,
-                    time = timeToEat,
-                    userId = currentUserId,
-                    posilekId = dishId
-                )
-                if (newDailyNutritionKey != null) {
-                    dailyNutritionRef.child(newDailyNutritionKey).setValue(dailyNutrition)
-                        .addOnSuccessListener {
-                            Toast.makeText(applicationContext, "Posiłek dodany do listy na dzień pomyślnie", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                applicationContext,
-                                "Błąd podczas dodawania posiłka: ${it.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                val builder = AlertDialog.Builder(context, R.style.AlertDialogCustom)
+                builder.setTitle("Wybierz dzień tygodnia")
+                builder.setItems(daysOfWeek) { _, selectedDayIndex ->
+                    val selectedDayOfWeek = selectedDayIndex + 1 // Adding 1 to make it 1-based index
+
+                    val database = FirebaseDatabase.getInstance()
+                    val dailyNutritionRef = database.getReference("scheduled")
+
+                    // Generate a unique key for the new dailyNutrition entry
+                    val newDailyNutritionKey = dailyNutritionRef.push().key
+
+                    val dailyNutrition = DailyNutrition(
+                        id = newDailyNutritionKey,
+                        time = timeToEat,
+                        day = selectedDayOfWeek,
+                        userId = currentUserId,
+                        posilekId = dishId
+                    )
+
+                    // Save the dailyNutrition object to the database
+                    if (newDailyNutritionKey != null) {
+                        dailyNutritionRef.child(newDailyNutritionKey).setValue(dailyNutrition)
+                            .addOnSuccessListener {
+                                Toast.makeText(applicationContext, "Posiłek dodany do listy na dzień pomyślnie", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Błąd podczas dodawania posiłka: ${it.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
                 }
+
+                builder.create().show()
             }, currentHour, currentMinute, false)
 
             timePickerDialog.show()
@@ -176,22 +262,16 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
 
         //Reading dish
         database.child("dishes").child(dishId).addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dish = snapshot.getValue(Posilki::class.java)
                 if (dish != null) {
                     // Check if the user has liked the dish
-                    val isLiked = dish.isLikedByUser(currentUserId)
 
-                    // Toggle the heart icons based on liking
                     val likeButton = findViewById<ImageView>(R.id.like_btn)
-                    if (isLiked) {
-                        likeButton.setImageResource(R.drawable.ic_red_heart)
-                    } else {
-                        likeButton.setImageResource(R.drawable.ic_empty_heart)
-                    }
 
-                    // Set an OnClickListener to toggle the like status when the heart icon is clicked
                     likeButton.setOnClickListener {
+                        var isLiked = dish.isLikedByUser(currentUserId)
                         if (isLiked) {
                             // User already liked the dish, so remove their ID from the liked list
                             dish.liked.remove(currentUserId)
@@ -211,18 +291,44 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
                         val dishRef = database.child("dishes").child(dishId)
                         dishRef.setValue(dish)
                     }
+
+                    database.child("dishes").child(dishId).child("liked").addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            var isLiked = dish.isLikedByUser(currentUserId)
+
+                            // Toggle the heart icons based on liking
+                            val likeButton = findViewById<ImageView>(R.id.like_btn)
+                            if (isLiked) {
+                                likeButton.setImageResource(R.drawable.ic_red_heart)
+                            } else {
+                                likeButton.setImageResource(R.drawable.ic_empty_heart)
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Обработка ошибки, если не удалось получить значение isLiked
+                        }
+                    })
+
+                    // Set an OnClickListener to toggle the like status when the heart icon is clicked
+
+                    calculateAverageMacro(dish) { amount ->
+                        nameField.text = "${dish?.name}(${amount}g)"
+                    }
+                    dishName = dish?.name
+                    dishCategory = dish?.category
+                    Glide.with(applicationContext)
+                        .load(dish?.photoUrl)
+                        .into(dishImage)
+                    dishImage.background = null;
+                    averageRating = dish?.let { calculateAverageRating(it) }
+                    average = findViewById(R.id.average_rate)
+                    average.text = averageRating.toString()
+
+                    fetchCategory(dish.category) { category ->
+                        categoryField.text = category.name // assuming the Category object has a name property
+                    }
                 }
-                nameField.text = dish?.name
-                dishName = dish?.name
-                dishCategory = dish?.category
-                dishQuantity = dish?.quantity
-                Glide.with(applicationContext)
-                    .load(dish?.photoUrl)
-                    .into(dishImage)
-                dishImage.background = null;
-                averageRating = dish?.let { calculateAverageRating(it) }
-                average = findViewById(R.id.average_rate)
-                average.text = averageRating.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -230,54 +336,51 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
             }
         })
 
-        //Initialise
-
-        val posilekRef = database.child("dishes").child(dishId)
-        posilekRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val posilek = snapshot.getValue(Posilki::class.java)
-
-                if (posilek != null) {
-                    calculateAverageMacro(posilek)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "loadPosilek:onCancelled", error.toException())
-            }
-        })
 
 
 
-        //List of "składniki"
         productRecyclerView = findViewById(R.id.productRecyclerView)
-        productAdapter = ProductAdapterDishDetails(mutableListOf(), this)
+        productAdapter = ProductAdapterDishDetails(mutableListOf(), mutableListOf(),this)
         productRecyclerView.adapter = productAdapter
 
-        database2 = FirebaseDatabase.getInstance()
-        productRef = FirebaseDatabase.getInstance().getReference("dishes").child(dishId).child("products")
+        val compositionsRef = FirebaseDatabase.getInstance().getReference("composition")
+        val query = compositionsRef.orderByChild("posilkiId").equalTo(dishId)
 
         productList = mutableListOf()
 
-        productRef.addValueEventListener(object : ValueEventListener {
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                productList.clear()
-                val products = mutableListOf<Skladnik>()
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(Skladnik::class.java)
-                    product?.let {
-                        products.add(it)
+                val tasks = mutableListOf<Task<*>>()
+                val productAmountMap = mutableMapOf<Skladnik, Int>()
+
+                for (skladPosilkiSnapshot in snapshot.children) {
+                    val skladPosilki = skladPosilkiSnapshot.getValue(SkladPosilku::class.java)
+                    skladPosilki?.let {
+                        val skladnikId = it.skladnikId
+                        val amountInGrams = it.amount
+
+                        val skladnikRef = FirebaseDatabase.getInstance().getReference("products").child(skladnikId)
+                        val task = skladnikRef.get().addOnSuccessListener { skladnikSnapshot ->
+                            val skladnik = skladnikSnapshot.getValue(Skladnik::class.java)
+                            skladnik?.let { productAmountMap[it] = amountInGrams }
+                        }
+                        tasks.add(task)
                     }
                 }
-                productList.addAll(products)
-                productAdapter.updateData(products)
+
+                Tasks.whenAllComplete(tasks).addOnCompleteListener {
+                    productList.clear()
+                    productList.addAll(productAmountMap.keys)
+                    val skladnikAmounts = productAmountMap.values.toMutableList()
+                    productAdapter.updateData(productList, skladnikAmounts)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
-
         })
+
 
         //Rating
         val ratings = arrayOf(1, 2, 3, 4, 5)
@@ -305,7 +408,9 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
                 intent = Intent(applicationContext, ListOfPosilkiActivity::class.java)
             } else if(intent.getStringExtra("sourceActivity") == "DishCatDetails"){
                 intent = Intent(applicationContext, DishCatDetailsActivity::class.java)
-            } else if(intent.getStringExtra("sourceActivity") == "SetDetail"){
+            } else if(intent.getStringExtra("sourceActivity") == "DaylistActivity"){
+                intent = Intent(applicationContext, DaylistActivity::class.java)
+            }else if(intent.getStringExtra("sourceActivity") == "SetDetail"){
                 intent = Intent(applicationContext, SetDetailActivity::class.java)
             }else {
                 intent = Intent(applicationContext, FavouriteActivity::class.java)
@@ -324,52 +429,56 @@ class DishDetailActivity : AppCompatActivity(), ProductAdapterDishDetails.Produc
 
             val database = Firebase.database.reference
             val commentId = database.child("dishes").child(dishId).child("comments").push().key
-            val comment = currentUserId?.let { it1 ->
-                Comment(
-                    id = commentId,
-                    text = text,
-                    ocena = selectedItem,
-                    userId = it1,
-                    posilekId = dishId
-                )
-            }
 
-            if (comment != null) {
-                if (comment.id != null) {
-                    val commentsRef = database.child("dishes").child(dishId).child("comments")
-                    val newCommentRef = commentsRef.push()
-                    newCommentRef.setValue(comment).addOnSuccessListener {
-                        Toast.makeText(this, "Nowy komentarz dodany pomyślnie", Toast.LENGTH_SHORT).show()
-                        edit_text.text.clear()
-
-                        //Update average rating value after adding a comment
-                        val posilekRef = database.child("dishes").child(dishId)
-                        posilekRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                val posilek = snapshot.getValue(Posilki::class.java)
-
-                                if (posilek != null) {
-                                    val averageRating = calculateAverageRating(posilek)
-                                    average.text = averageRating.toString()
-                                }
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-                                Log.w(ContentValues.TAG, "loadPosilek:onCancelled", error.toException())
-                            }
-                        })
-                    }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                this,
-                                "Błąd podczas dodawania komentarza: ${it.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+            if (text.isNotEmpty()) {
+                val comment = currentUserId?.let { it1 ->
+                    Comment(
+                        id = commentId,
+                        text = text,
+                        ocena = selectedItem,
+                        userId = it1,
+                        posilekId = dishId
+                    )
                 }
-            }
 
-        }
+                if (comment != null) {
+                    if (comment.id != null) {
+                        val commentsRef = database.child("dishes").child(dishId).child("comments")
+                        val newCommentRef = commentsRef.push()
+                        newCommentRef.setValue(comment).addOnSuccessListener {
+                            Toast.makeText(this, "Nowy komentarz dodany pomyślnie", Toast.LENGTH_SHORT).show()
+                            edit_text.text.clear()
+
+                            //Update average rating value after adding a comment
+                            val posilekRef = database.child("dishes").child(dishId)
+                            posilekRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val posilek = snapshot.getValue(Posilki::class.java)
+
+                                    if (posilek != null) {
+                                        val averageRating = calculateAverageRating(posilek)
+                                        average.text = averageRating.toString()
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.w(ContentValues.TAG, "loadPosilek:onCancelled", error.toException())
+                                }
+                            })
+                        }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    this,
+                                    "Błąd podczas dodawania komentarza: ${it.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+                }
+                } else {
+                    Toast.makeText(this, "Należy wpisać tekst", Toast.LENGTH_SHORT).show()
+                }
+                    }
 
         //Comments list
         val commentsRef = FirebaseDatabase.getInstance().reference.child("dishes").child(dishId).child("comments")

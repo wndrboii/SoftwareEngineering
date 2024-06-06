@@ -1,11 +1,9 @@
 package com.example.softwareengineering
 
-import NotificationUtils
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,8 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.model.DailyNutrition
-import com.example.softwareengineering.model.Posilki
+import model.DailyNutrition
+import model.Posilki
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,7 +21,7 @@ import com.google.firebase.database.ValueEventListener
 
 class DailyAdapter(
     private var posilkiList: MutableList<DailyNutrition>,
-    private val listener: PosilkiAdapterListener,
+    private val listener: DailyAdapterListener,
     private val notificationUtils: NotificationUtils
 ) : RecyclerView.Adapter<DailyAdapter.PosilkiViewHolder>() {
 
@@ -118,7 +116,7 @@ class DailyAdapter(
         }
     }
 
-    interface PosilkiAdapterListener {
+    interface DailyAdapterListener {
         fun onDishClick(position: Int)
         fun onDeleteClick(position: Int)
         fun onSuccessClick(position: Int)

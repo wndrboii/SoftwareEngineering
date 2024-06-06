@@ -1,16 +1,18 @@
 package com.example.softwareengineering
 
-import CategoryAdapter
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.model.ProductCategory
+import model.ProductCategory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -21,6 +23,8 @@ class ListOfCategoriesActivity : AppCompatActivity(), CategoryAdapter.CategoryAd
     private lateinit var categories: ImageButton
     private lateinit var profile: ImageButton
 
+    private lateinit var goback: ImageButton
+    private lateinit var searchEditText: EditText
     private lateinit var catAdapter: CategoryAdapter
     private lateinit var catList: MutableList<ProductCategory>
     private lateinit var catRecyclerView: RecyclerView
@@ -35,7 +39,7 @@ class ListOfCategoriesActivity : AppCompatActivity(), CategoryAdapter.CategoryAd
         catRecyclerView = findViewById(R.id.catRecyclerView)
         catAdapter = CategoryAdapter(mutableListOf(), this)
         catRecyclerView.adapter = catAdapter
-
+        searchEditText = findViewById(R.id.search)
         database = FirebaseDatabase.getInstance()
         catRef = database.getReference("sets")
 
@@ -60,12 +64,23 @@ class ListOfCategoriesActivity : AppCompatActivity(), CategoryAdapter.CategoryAd
             }
 
         })
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchTerm = s.toString().lowercase()
+                val filteredList = catList.filter { it.name.lowercase().contains(searchTerm) }
+                catAdapter.updateData(filteredList as MutableList<ProductCategory>)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
         profile = findViewById(R.id.profile_button)
-
+        goback = findViewById(R.id.goback_btn)
 
         home.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext, MainActivity::class.java)
@@ -88,6 +103,11 @@ class ListOfCategoriesActivity : AppCompatActivity(), CategoryAdapter.CategoryAd
 
         profile.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+        goback.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext, DishCategories::class.java)
             startActivity(intent)
             finish()
         })

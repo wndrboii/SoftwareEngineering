@@ -1,20 +1,23 @@
 package com.example.softwareengineering
 
 import android.content.Intent
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.example.softwareengineering.model.Skladnik
+import model.Skladnik
 
 class SkladnikiActivity : AppCompatActivity() {
 
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var nameOfProduct: EditText
     private lateinit var caloriesEditText: EditText
     private lateinit var proteinsEditText: EditText
@@ -28,6 +31,25 @@ class SkladnikiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_skladniki)
 
+        val rootView = findViewById<ScrollView>(R.id.scroll_view)
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val r = Rect()
+            rootView.getWindowVisibleDisplayFrame(r)
+            val screenHeight = rootView.rootView.height
+
+            // r.bottom is the position above soft keypad or device button.
+            // if keypad is shown, the r.bottom is smaller than that before.
+            val keypadHeight = screenHeight - r.bottom
+
+            if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+                // keyboard is opened
+                rootView.setPadding(0, 0, 0, keypadHeight - 300)
+            } else {
+                // keyboard is closed
+                rootView.setPadding(0, 0, 0, 0)
+            }
+        }
+
         val addButton = findViewById<ImageButton>(R.id.submit_btn)
         addButton.setOnClickListener {
             nameOfProduct = findViewById<EditText>(R.id.name_edit_text)
@@ -37,10 +59,10 @@ class SkladnikiActivity : AppCompatActivity() {
             fatsEditText = findViewById<EditText>(R.id.tł_edit_text)
 
             val name = nameOfProduct.text.toString()
-            val calories = caloriesEditText.text.toString().toIntOrNull()
-            val proteins = proteinsEditText.text.toString().toIntOrNull()
-            val carbs = carbsEditText.text.toString().toIntOrNull()
-            val fats = fatsEditText.text.toString().toIntOrNull()
+            val calories = caloriesEditText.text.toString().toDoubleOrNull()
+            val proteins = proteinsEditText.text.toString().toDoubleOrNull()
+            val carbs = carbsEditText.text.toString().toDoubleOrNull()
+            val fats = fatsEditText.text.toString().toDoubleOrNull()
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             val currentUserId = currentUser?.uid
@@ -91,6 +113,7 @@ class SkladnikiActivity : AppCompatActivity() {
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
+        profile = findViewById(R.id.profile_button)
         skladnikiArr = findViewById(R.id.skladniki_arr_btn)
 
         home.setOnClickListener(View.OnClickListener {
@@ -101,6 +124,12 @@ class SkladnikiActivity : AppCompatActivity() {
 
         categories.setOnClickListener(View.OnClickListener {
             var intent: Intent = Intent(applicationContext, CategoriesActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
             startActivity(intent)
             finish()
         })

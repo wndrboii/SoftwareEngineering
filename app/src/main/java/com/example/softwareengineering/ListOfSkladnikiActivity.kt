@@ -1,6 +1,5 @@
 package com.example.softwareengineering
 
-import ProductAdapter
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +10,10 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.model.Skladnik
+import model.Skladnik
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -25,7 +25,7 @@ class ListOfSkladnikiActivity : AppCompatActivity(), ProductAdapter.ProductAdapt
     private lateinit var profile: ImageButton
 
     private lateinit var goback: ImageButton
-    private lateinit var verticalMenu: ImageButton
+    private lateinit var verticalMenu: ImageView
     private lateinit var searchEditText: EditText
     private lateinit var productAdapter: ProductAdapter
     private lateinit var productList: MutableList<Skladnik>

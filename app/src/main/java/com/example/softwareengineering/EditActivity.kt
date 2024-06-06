@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import com.example.softwareengineering.model.Skladnik
+import model.Skladnik
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -20,6 +20,7 @@ class EditActivity : AppCompatActivity() {
     private lateinit var productRef: DatabaseReference
     private lateinit var skladnikId: String
     private lateinit var logout: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
     private lateinit var nameOfProduct: EditText
@@ -67,10 +68,10 @@ class EditActivity : AppCompatActivity() {
         addButton.setOnClickListener {
 
             val name = nameOfProduct.text.toString()
-            val calories = caloriesEditText.text.toString().toIntOrNull()
-            val protein = proteinsEditText.text.toString().toIntOrNull()
-            val carbs = carbsEditText.text.toString().toIntOrNull()
-            val fat = fatsEditText.text.toString().toIntOrNull()
+            val calories = caloriesEditText.text.toString().toDoubleOrNull()
+            val protein = proteinsEditText.text.toString().toDoubleOrNull()
+            val carbs = carbsEditText.text.toString().toDoubleOrNull()
+            val fat = fatsEditText.text.toString().toDoubleOrNull()
 
             if (name.isBlank() || calories == null || protein == null || carbs == null || fat == null) {
                 Toast.makeText(this, "Wszystkie pola muszą być wypełnione poprawnie", Toast.LENGTH_SHORT).show()
@@ -96,7 +97,9 @@ class EditActivity : AppCompatActivity() {
 
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
+        profile = findViewById(R.id.profile_button)
         categories = findViewById(R.id.categories_btn)
+
         skladnikiArr = findViewById(R.id.skladniki_arr_btn)
 
         home.setOnClickListener(View.OnClickListener {
@@ -107,6 +110,12 @@ class EditActivity : AppCompatActivity() {
 
         categories.setOnClickListener(View.OnClickListener {
             var intent: Intent = Intent(applicationContext, CategoriesActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
             startActivity(intent)
             finish()
         })

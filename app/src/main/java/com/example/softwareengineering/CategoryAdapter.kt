@@ -1,14 +1,12 @@
+package com.example.softwareengineering
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.R
-import com.example.softwareengineering.model.Posilki
-import com.example.softwareengineering.model.ProductCategory
+import model.ProductCategory
 import com.google.firebase.auth.FirebaseAuth
 
 class CategoryAdapter(

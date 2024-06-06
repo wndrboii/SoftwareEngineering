@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 
 class CategoriesActivity : AppCompatActivity() {
@@ -30,13 +28,15 @@ class CategoriesActivity : AppCompatActivity() {
     private lateinit var tips_btn: ImageButton
     private lateinit var category_btn: ImageButton
     private lateinit var favourite_btn: ImageButton
+    private lateinit var history_btn: ImageButton
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
 
-        val textView = findViewById<TextView>(R.id.textview)
+        val waterTextView = findViewById<TextView>(R.id.water_label)
 
         val text = "Woda (wkrótce...)"
         val spannableString = SpannableString(text)
@@ -47,7 +47,7 @@ class CategoriesActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        textView.text = spannableString
+        waterTextView.text = spannableString
 
 
         logout = findViewById(R.id.logout_button)
@@ -65,6 +65,8 @@ class CategoriesActivity : AppCompatActivity() {
         tips_btn = findViewById(R.id.tips_btn)
         favourite_btn = findViewById(R.id.favourite_btn)
         category_btn = findViewById(R.id.categoty_btn)
+        history_btn = findViewById(R.id.history_btn)
+
 
         home.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext,MainActivity::class.java)
@@ -114,6 +116,13 @@ class CategoriesActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         })
+
+        history_btn.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,HistoryActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         measurements_btn.setOnClickListener(View.OnClickListener{
             var intent : Intent = Intent(applicationContext,MeasurementsActivity::class.java)
             startActivity(intent)

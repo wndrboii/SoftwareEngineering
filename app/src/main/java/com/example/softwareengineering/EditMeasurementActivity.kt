@@ -10,8 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import com.example.softwareengineering.model.Measurement
-import com.example.softwareengineering.model.Skladnik
+import model.Measurement
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -21,6 +20,7 @@ class EditMeasurementActivity : AppCompatActivity() {
     private lateinit var measRef: DatabaseReference
     private lateinit var measId: String
     private lateinit var logout: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
     private lateinit var height: EditText
@@ -113,6 +113,7 @@ class EditMeasurementActivity : AppCompatActivity() {
 
         logout = findViewById(R.id.logout_button)
         home = findViewById(R.id.home_button)
+        profile = findViewById(R.id.profile_button)
         categories = findViewById(R.id.categories_btn)
         measurementsArr = findViewById(R.id.measurements_arr)
 
@@ -124,6 +125,12 @@ class EditMeasurementActivity : AppCompatActivity() {
 
         categories.setOnClickListener(View.OnClickListener {
             var intent: Intent = Intent(applicationContext, CategoriesActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
             startActivity(intent)
             finish()
         })

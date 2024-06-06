@@ -11,9 +11,8 @@ import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.adapter.PosilkiToChooseAdapter
-import com.example.softwareengineering.model.Posilki
-import com.example.softwareengineering.model.ProductCategory
+import model.Posilki
+import model.ProductCategory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -24,6 +23,7 @@ class CategoryEditActivity : AppCompatActivity() {
     private lateinit var logout: ImageButton
     private lateinit var home: ImageButton
     private lateinit var categories: ImageButton
+    private lateinit var profile: ImageButton
     private lateinit var catName: EditText
     private lateinit var addButton: ImageButton
     private lateinit var dialogButton: Button
@@ -46,6 +46,7 @@ class CategoryEditActivity : AppCompatActivity() {
 
         catName = findViewById(R.id.name_edit_text)
         logout = findViewById(R.id.logout_button)
+        profile = findViewById(R.id.profile_button)
         home = findViewById(R.id.home_button)
         categories = findViewById(R.id.categories_btn)
 
@@ -115,6 +116,12 @@ class CategoryEditActivity : AppCompatActivity() {
             finish()
         })
 
+        profile.setOnClickListener(View.OnClickListener{
+            var intent : Intent = Intent(applicationContext,ProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
         logout.setOnClickListener(View.OnClickListener {
             FirebaseAuth.getInstance().signOut()
             var intent: Intent = Intent(applicationContext, login::class.java)
@@ -132,7 +139,7 @@ class CategoryEditActivity : AppCompatActivity() {
         }
 
     private fun showCustomDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this,R.style.AlertDialogProducts)
         val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null)
         val recyclerView = dialogLayout.findViewById<RecyclerView>(R.id.ingredients_rv)
 

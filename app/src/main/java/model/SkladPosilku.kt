@@ -1,4 +1,4 @@
-package com.example.softwareengineering.model
+package model
 
 data class SkladPosilku (
     val posilkiId: String = "",

@@ -1,15 +1,15 @@
+package com.example.softwareengineering
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.softwareengineering.R
-import com.example.softwareengineering.model.Skladnik
+import model.Skladnik
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 class ProductAdapter(
     private var productList: MutableList<Skladnik>,
@@ -19,7 +19,7 @@ class ProductAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.product_item2, parent, false)
         return ProductViewHolder(itemView)
     }
 
@@ -85,6 +85,9 @@ class ProductAdapter(
         val editButton: AppCompatImageView = itemView.findViewById(R.id.edit_btn)
         val editNonActiveButton: AppCompatImageView = itemView.findViewById(R.id.edit_nonactive_btn)
 
+        private val overlayLayout: ConstraintLayout = itemView.findViewById(R.id.overlay_Layout)
+        private val productWrapper: ConstraintLayout = itemView.findViewById(R.id.product_wrapper)
+
         init {
             deleteButton.setOnClickListener {
                 val position = adapterPosition
@@ -104,7 +107,43 @@ class ProductAdapter(
             editNonActiveButton.setOnClickListener {
                 Toast.makeText(itemView.context, "Tylko autorzy składników mogą usuwać lub edytować składniki", Toast.LENGTH_SHORT).show();
             }
+
+            //Overlay
+            var isTouch: Boolean = false
+            productWrapper.setOnLongClickListener {
+                isTouch = true
+                showOverlay()
+                false
+            }
+
+            overlayLayout.setOnClickListener {
+                isTouch = false
+                hideOverlay()
+            }
+
+            overlayLayout.findViewById<ImageView>(R.id.edit_btn).setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onEditClick(position)
+                }
+            }
+
+            overlayLayout.findViewById<ImageView>(R.id.remove_btn).setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDeleteClick(position)
+                }
+            }
         }
+
+        private fun showOverlay() {
+            overlayLayout.visibility = View.VISIBLE
+        }
+
+        private fun hideOverlay() {
+            overlayLayout.visibility = View.GONE
+        }
+
     }
 
     interface ProductAdapterListener {
